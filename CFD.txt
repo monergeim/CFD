@@ -3,57 +3,15 @@
 dos2unix fxclient5.rolloverdates.properties
 a=`whoami`
 
-#trade
-scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.65.178:~
-ssh -t -o GSSAPIAuthentication=no $a@172.31.65.178 '
+function load {
+scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@$1:~
+ssh -t -o GSSAPIAuthentication=no $a@$1 '
 sudo cp fxclient5.rolloverdates.properties /tmp
 sudo su - cosmos -c "cp /tmp/fxclient5.rolloverdates.properties /opt/cosmos/etc"
 '
+}
 
-scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.65.101:~
-ssh -t -o GSSAPIAuthentication=no $a@172.31.65.101 '
-sudo cp fxclient5.rolloverdates.properties /tmp
-sudo su - cosmos -c "cp /tmp/fxclient5.rolloverdates.properties /opt/cosmos/etc/"
-'
-
-#SA
-scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.65.117:~
-ssh -t -o GSSAPIAuthentication=no $a@172.31.65.117 '
-sudo cp fxclient5.rolloverdates.properties /tmp
-sudo su - cosmos -c "cp /tmp/fxclient5.rolloverdates.properties /opt/cosmos/etc/"
-'
-
-scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.65.183:~
-ssh -t -o GSSAPIAuthentication=no $a@172.31.65.183 '
-sudo cp fxclient5.rolloverdates.properties /tmp
-sudo su - cosmos -c "cp /tmp/fxclient5.rolloverdates.properties /opt/cosmos/etc/"
-'
-
-#Finq
-scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.65.84:~
-ssh -t -o GSSAPIAuthentication=no $a@172.31.65.84 '
-sudo cp fxclient5.rolloverdates.properties /tmp
-sudo su - cosmos -c "cp /tmp/fxclient5.rolloverdates.properties /opt/cosmos/etc/"
-'
-
-scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.65.248:~
-ssh -t -o GSSAPIAuthentication=no $a@172.31.65.248 '
-sudo cp fxclient5.rolloverdates.properties /tmp
-sudo su - cosmos -c "cp /tmp/fxclient5.rolloverdates.properties /opt/cosmos/etc/"
-'
-
-#CFDGlobal
-scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.65.62:~
-ssh -t -o GSSAPIAuthentication=no $a@172.31.65.62 '
-sudo cp fxclient5.rolloverdates.properties /tmp
-sudo su - cosmos -c "cp /tmp/fxclient5.rolloverdates.properties /opt/cosmos/etc/"
-'
-
-scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.65.100:~
-ssh -t -o GSSAPIAuthentication=no $a@172.31.65.100 '
-sudo cp fxclient5.rolloverdates.properties /tmp
-sudo su - cosmos -c "cp /tmp/fxclient5.rolloverdates.properties /opt/cosmos/etc/"
-'
+for ip in $(awk /^[0-9].*/ ips.txt); do load $ip; done
 
 #MarketsDemo
 scp -o GSSAPIAuthentication=no fxclient5.rolloverdates.properties $a@172.31.16.206:~
@@ -68,4 +26,7 @@ ssh -t -o GSSAPIAuthentication=no $a@172.31.17.225 '
 sudo cp fxclient5.rolloverdates.properties /tmp
 sudo su - csmarketslive -c "cp /tmp/fxclient5.rolloverdates.properties /opt/csmarketslive/etc/; /tmp/git_load.sh"
 '
+
+ssh -t -o GSSAPIAuthentication=no $a@172.31.17.225 'sudo su - csmarketslive -c "/tmp/git_load.sh"'
+
 echo Congrats!!!
